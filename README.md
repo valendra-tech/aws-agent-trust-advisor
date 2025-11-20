@@ -16,8 +16,11 @@ AI-assisted CLI to inspect and troubleshoot your AWS environment directly from t
 
 ## Quickstart
 ```bash
-# download binary (from repo releases) or build yourself
-# e.g., curl -L -o aws-agent-trust-advisor <release-asset-url>
+# easiest: install script (sudo because it writes to /usr/local/bin)
+curl -fsSL https://raw.githubusercontent.com/valendra-tech/aws-agent-trust-advisor/main/install.sh | sudo bash
+
+# or download a release asset yourself
+# e.g., curl -L -o aws-agent-trust-advisor <release-asset-url> && chmod +x aws-agent-trust-advisor
 
 # build
 go build -o aws-agent-trust-advisor
