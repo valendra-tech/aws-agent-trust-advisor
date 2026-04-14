@@ -19,6 +19,7 @@ import (
 	ekstools "github.com/valendra-tech/aws-agent-trust-advisor/internal/tools/eks"
 	elbtools "github.com/valendra-tech/aws-agent-trust-advisor/internal/tools/elb"
 	s3tools "github.com/valendra-tech/aws-agent-trust-advisor/internal/tools/s3"
+	organizationstools "github.com/valendra-tech/aws-agent-trust-advisor/internal/tools/organizations"
 	sestools "github.com/valendra-tech/aws-agent-trust-advisor/internal/tools/ses"
 	vpctools "github.com/valendra-tech/aws-agent-trust-advisor/internal/tools/vpc"
 )
@@ -203,6 +204,20 @@ func (c *Container) Build(params BuildParams) error {
 		listConfigSetsTool := sestools.NewListConfigurationSetsTool(awsConfig)
 		if err := registry.Register(listConfigSetsTool); err != nil {
 			log.Error("Failed to register list_ses_configuration_sets tool: %v", err)
+		}
+
+		// Register Organizations tools
+		describeOrgTool := organizationstools.NewDescribeOrganizationTool(awsConfig)
+		if err := registry.Register(describeOrgTool); err != nil {
+			log.Error("Failed to register describe_organization tool: %v", err)
+		}
+		listAccountsTool := organizationstools.NewListAccountsTool(awsConfig)
+		if err := registry.Register(listAccountsTool); err != nil {
+			log.Error("Failed to register list_organization_accounts tool: %v", err)
+		}
+		listPoliciesTool := organizationstools.NewListPoliciesTool(awsConfig)
+		if err := registry.Register(listPoliciesTool); err != nil {
+			log.Error("Failed to register list_organization_policies tool: %v", err)
 		}
 
 		log.Info("Registered %d tools", registry.Count())
